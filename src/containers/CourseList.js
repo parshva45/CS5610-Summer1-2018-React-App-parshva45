@@ -1,6 +1,6 @@
 import React from 'react';
 import CourseRow from "../components/CourseRow";
-import CourseService from "../services/CourseService";
+import CourseService from "../services/CourseServiceClient";
 
 class CourseList extends React.Component {
   constructor() {
@@ -16,15 +16,12 @@ class CourseList extends React.Component {
     this.courseService
       .findAllCourses()
       .then((courses) => {
-        console.log(courses);
         this.setState({courses: courses});
       })
   }
   renderCourseRows() {
     let courses = null;
 
-    console.log("render coruse rows")
-    console.log(this.state)
     if(this.state) {
       courses = this.state.courses.map(
         function (course) {
