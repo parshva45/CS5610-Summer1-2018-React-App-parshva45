@@ -1,12 +1,14 @@
 import React, {Component} from 'react'
 import ModuleListItem from '../components/ModuleListItem';
-import ModuleService from '../services/ModuleServiceClient'
+import ModuleService from '../services/ModuleServiceClient';
+import CourseService from '../services/CourseServiceClient';
 
 export default class ModuleList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       courseId: '',
+      courseName: '',
       module: { title: '' },
       modules: [
         {title: '', id: ''}
@@ -19,6 +21,7 @@ export default class ModuleList extends Component {
       this.setCourseId.bind(this);
 
     this.moduleService = ModuleService.instance;
+    this.courseService = CourseService.instance;
   }
   setModules(modules) {
     this.setState({modules: modules})
@@ -32,18 +35,28 @@ export default class ModuleList extends Component {
   setCourseId(courseId) {
     this.setState({courseId: courseId});
   }
+
+  setCourseName(courseName) {
+    this.setState({courseName: courseName});
+  }
+
   componentDidMount() {
     this.setCourseId(this.props.courseId);
   }
   componentWillReceiveProps(newProps){
     this.setCourseId(newProps.courseId);
-    this.findAllModulesForCourse(newProps.courseId)
+    this.findAllModulesForCourse(newProps.courseId);
+    this.courseService
+      .findCourseById(newProps.courseId)
+      .then((course) => {
+          this.setCourseName(course.title)
+      });
   }
 
   createModule() {
     this.moduleService
       .createModule(this.props.courseId, this.state.module)
-      .then(() => { this.findAllModulesForCourse(this.state.courseId); });
+      .then(() => {this.findAllModulesForCourse(this.state.courseId)});
   }
   titleChanged(event) {
     this.setState({module: {title: event.target.value}});
@@ -60,7 +73,7 @@ export default class ModuleList extends Component {
   render() {
     return (
       <div>
-        <h3>Module List for course: {this.state.courseId}</h3>
+        <h3>Module List for course: {this.state.courseName}</h3>
         <input onChange={this.titleChanged}
                value={this.state.module.title}
                placeholder="title"
