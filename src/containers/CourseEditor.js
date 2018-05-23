@@ -22,9 +22,7 @@ export default class CourseEditor
 
   render() { return(
     <div>
-      <h2>Editing course: {this.state.courseId}</h2>
-
-          <ModuleList courseId={this.state.courseId}/>
+      <ModuleList courseId={this.state.courseId}/>
 
     </div>
   );}}
