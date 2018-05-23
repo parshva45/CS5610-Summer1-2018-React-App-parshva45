@@ -14,8 +14,13 @@ export default class ModuleListItem
             {this.props.module.title}
         </Link>
         <span className="float-right">
-            <i className="fa fa-trash"></i>
-            <i className="fa fa-pencil"></i>
+            <button className="btn btn-danger fa fa-times"
+                    onClick={() => {
+                        this.props.delete(
+                            this.props.module.id
+                        )
+                    }}>
+            </button>
         </span>
 
       </li>

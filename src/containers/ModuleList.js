@@ -16,6 +16,7 @@ export default class ModuleList extends Component {
     };
     this.createModule = this.createModule.bind(this);
     this.titleChanged = this.titleChanged.bind(this);
+    this.deleteModule = this.deleteModule.bind(this);
 
     this.setCourseId =
       this.setCourseId.bind(this);
@@ -66,17 +67,23 @@ export default class ModuleList extends Component {
         (module) => {
           return <ModuleListItem module={module}
                                  courseId={this.state.courseId}
+                                 delete={this.deleteModule}
                                  key={module.id}/>
       });
       return modules;
   }
+  deleteModule(moduleId){
+    this.moduleService
+        .deleteModule(moduleId)
+        .then(() => { this.findAllModulesForCourse(this.state.courseId); });
+  }
   render() {
     return (
       <div>
-        <h3>Module List for course: {this.state.courseName}</h3>
+        <h4>Module List for course: {this.state.courseName}</h4>
         <input onChange={this.titleChanged}
                value={this.state.module.title}
-               placeholder="title"
+               placeholder="Module Title"
                className="form-control"/>
         <button onClick={this.createModule} className="btn btn-primary btn-block">
           <i className="fa fa-plus"></i>
