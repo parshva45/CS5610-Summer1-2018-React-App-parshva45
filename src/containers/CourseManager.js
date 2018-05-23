@@ -1,10 +1,8 @@
 import React, {Component} from 'react'
-import CourseCard from '../components/CourseCard'
-import ModuleList from './ModuleList'
-import LessonTabs from './LessonTabs'
 import CourseEditor from './CourseEditor'
 import CourseList from "./CourseList";
 import {BrowserRouter as Router, Route} from 'react-router-dom'
+import ModuleEditor from './ModuleEditor'
 
 export default class CourseManager
   extends Component {
@@ -17,25 +15,19 @@ export default class CourseManager
           <Route path="/courses"
                  component={CourseList}>
           </Route>
-          <Route path="/course/:courseId"
-                 component={CourseEditor}>
-          </Route>
+          <div className="row">
+            <div className="col-4">
+              <Route path="/course/:courseId"
+                     component={CourseEditor}>
+              </Route>
+            </div>
+            <div className="col-8">
+              <Route path="/course/:courseId/module/:moduleId"
+                     component={ModuleEditor}>
+              </Route>
+            </div>
+          </div>
 
-
-        {/*<Route path="/examples">*/}
-            {/*<div>*/}
-              {/*<div className="card-deck">*/}
-                {/*<CourseCard/>*/}
-                {/*<CourseCard/>*/}
-                {/*<CourseCard/>*/}
-                {/*<CourseCard/>*/}
-              {/*</div>*/}
-              {/*<CourseEditor/>*/}
-              {/*<br/>*/}
-              {/*<LessonTabs/>*/}
-              {/*<ModuleList/>*/}
-            {/*</div>*/}
-          {/*</Route>*/}
         </div>
       </Router>
     )

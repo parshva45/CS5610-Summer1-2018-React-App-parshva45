@@ -12,9 +12,10 @@ export default class LessonService {
     findAllLessonsForModule(courseId, moduleId) {
         return fetch(
             LESSON_API_URL
-                .replace('CID', courseId))
-                .replace('MID', moduleId)
+                .replace('CID', courseId)
+                .replace('MID', moduleId))
             .then(function (response) {
+                //console.log(response)
                 return response.json();
             })
     }

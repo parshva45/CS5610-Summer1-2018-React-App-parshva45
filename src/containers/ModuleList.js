@@ -9,7 +9,7 @@ export default class ModuleList extends Component {
       courseId: '',
       module: { title: '' },
       modules: [
-        {title: '', id: 0}
+        {title: '', id: ''}
       ]
     };
     this.createModule = this.createModule.bind(this);
@@ -49,11 +49,13 @@ export default class ModuleList extends Component {
     this.setState({module: {title: event.target.value}});
   }
   renderListOfModules() {
-    let modules = this.state.modules.map(function(module){
-      return <ModuleListItem module={module}
-                             key={module.id}/>
-    });
-    return modules;
+      let modules = this.state.modules.map(
+        (module) => {
+          return <ModuleListItem module={module}
+                                 courseId={this.state.courseId}
+                                 key={module.id}/>
+      });
+      return modules;
   }
   render() {
     return (

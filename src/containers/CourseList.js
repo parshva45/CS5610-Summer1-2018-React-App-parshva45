@@ -5,6 +5,10 @@ import CourseService from "../services/CourseServiceClient";
 class CourseList extends React.Component {
   constructor() {
     super();
+    this.state = {
+        course:'',
+        courses:[]
+    };
     this.courseService = CourseService.instance;
     this.titleChanged = this.titleChanged.bind(this);
     this.createCourse = this.createCourse.bind(this);
@@ -20,19 +24,12 @@ class CourseList extends React.Component {
       })
   }
   renderCourseRows() {
-    let courses = null;
-
-    if(this.state) {
-      courses = this.state.courses.map(
-        function (course) {
+    let courses = this.state.courses.map(
+        (course) => {
           return <CourseRow key={course.id}
                             course={course}/>
-        }
-      )
-    }
-    return (
-      courses
-    )
+    });
+    return courses
   }
   titleChanged(event) {
     this.setState({
