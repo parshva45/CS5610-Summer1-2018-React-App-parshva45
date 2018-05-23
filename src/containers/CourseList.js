@@ -31,7 +31,6 @@ class CourseList extends React.Component {
           course['modified'] = modifiedLocalDate.substr(4,20);
           var createdLocalDate = new Date(course.created).toString();
           course['created'] = createdLocalDate.substr(4,20);
-          console.log(JSON.stringify(course));
           return <CourseRow key={course.id}
                             course={course}
                             delete={this.deleteCourse}/>

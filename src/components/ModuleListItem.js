@@ -7,7 +7,6 @@ export default class ModuleListItem
     super(props);
   }
   render() {
-      //console.log(this.props)
     return (
       <li className="list-group-item">
         <Link to={`/course/${this.props.courseId}/module/${this.props.module.id}`}>

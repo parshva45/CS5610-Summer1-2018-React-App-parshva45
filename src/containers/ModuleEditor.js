@@ -27,7 +27,6 @@ export default class ModuleEditor
             newProps.match.params.courseId,
             newProps.match.params.moduleId
         );
-        //this.findAllLessonsForModule(newProps.courseId, newProps.moduleId);
     }
 
     selectModule(courseId, moduleId) {

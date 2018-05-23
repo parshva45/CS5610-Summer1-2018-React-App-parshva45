@@ -20,8 +20,15 @@ export default class LessonTabs extends Component {
         this.setCourseId = this.setCourseId.bind(this);
         this.setModuleId = this.setModuleId.bind(this);
         this.setLessons = this.setLessons.bind(this);
+        this.titleChanged = this.titleChanged.bind(this);
+        this.createLesson = this.createLesson.bind(this);
 
         this.lessonService = LessonService.instance;
+    }
+    createLesson(courseId, moduleId){
+        this.lessonService
+            .createLesson(courseId, moduleId, this.state.lesson)
+            .then(() => { this.findAllLessonsForModule(this.state.courseId, this.state.moduleId)});
     }
     setCourseId(courseId) {
         this.setState({courseId: courseId});
@@ -32,22 +39,24 @@ export default class LessonTabs extends Component {
     setLessons(lessons) {
         this.setState({lessons: lessons})
     }
+    titleChanged(event) {
+        this.setState({
+            lesson: { title: event.target.value }
+        });
+    }
     findAllLessonsForModule(courseId, moduleId) {
         this.lessonService
             .findAllLessonsForModule(courseId, moduleId)
             .then((lessons) => {
-                //console.log(lessons);
                 this.setLessons(lessons)});
     }
 
     componentDidMount() {
-        console.log(JSON.stringify(this.props));
         this.setCourseId(this.props.courseId);
         this.setModuleId(this.props.moduleId);
     }
 
     componentWillReceiveProps(newProps){
-        console.log(JSON.stringify(newProps));
         this.setCourseId(newProps.courseId);
         this.setModuleId(newProps.moduleId);
         this.findAllLessonsForModule(newProps.courseId, newProps.moduleId);
@@ -56,17 +65,37 @@ export default class LessonTabs extends Component {
     renderListOfLessons() {
         let lessons = this.state.lessons.map(
             (lesson) => {
-                //console.log(lesson);
                 return <LessonTabsItem lesson={lesson}
-                                       key={lesson.id}/>
+                                       key={lesson.id}
+                                       create={this.createLesson}/>
         });
         return lessons;
     }
     render() {
         return(
-            <div className="col-8">
+            <div>
                 <ul className="nav nav-tabs">
                     {this.renderListOfLessons()}
+                    <li>
+                        <div className="row">
+                            <div className="col-6">
+                                <input onChange={this.titleChanged}
+                                       className="form-control"
+                                       id="titleFld"
+                                       placeholder="Lesson Title"/>
+                            </div>
+                            <div className="col-2">
+                                <button className="btn btn-success fa fa-plus"
+                                        onClick={() => {
+                                            this.createLesson(
+                                                this.props.courseId,
+                                                this.props.moduleId
+                                            )
+                                        }}>
+                                </button>
+                            </div>
+                        </div>
+                    </li>
                 </ul>
             </div>
         );
