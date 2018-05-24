@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import LessonTabsItem from '../components/LessonTabsItem';
-import LessonService from '../services/LessonServiceClient'
+import LessonService from '../services/LessonServiceClient';
 
 export default class LessonTabs extends Component {
     constructor(props) {
@@ -14,9 +14,6 @@ export default class LessonTabs extends Component {
             ]
         };
 
-        //this.createModule = this.createModule.bind(this);
-        //this.titleChanged = this.titleChanged.bind(this);
-
         this.setCourseId = this.setCourseId.bind(this);
         this.setModuleId = this.setModuleId.bind(this);
         this.setLessons = this.setLessons.bind(this);
@@ -26,6 +23,7 @@ export default class LessonTabs extends Component {
 
         this.lessonService = LessonService.instance;
     }
+
     createLesson(courseId, moduleId){
         this.lessonService
             .createLesson(courseId, moduleId, this.state.lesson)
@@ -92,7 +90,7 @@ export default class LessonTabs extends Component {
                                    placeholder="Lesson Title"/>
                         </div>
                         <div style={{display:'inline-block'}}>
-                            <button className="btn btn-success fa fa-plus"
+                            <button className="btn btn-primary fa fa-plus"
                                     onClick={() => {
                                         this.createLesson(
                                             this.props.courseId,
