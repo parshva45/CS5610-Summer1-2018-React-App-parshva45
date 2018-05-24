@@ -22,12 +22,18 @@ export default class LessonTabs extends Component {
         this.setLessons = this.setLessons.bind(this);
         this.titleChanged = this.titleChanged.bind(this);
         this.createLesson = this.createLesson.bind(this);
+        this.deleteLesson = this.deleteLesson.bind(this);
 
         this.lessonService = LessonService.instance;
     }
     createLesson(courseId, moduleId){
         this.lessonService
             .createLesson(courseId, moduleId, this.state.lesson)
+            .then(() => { this.findAllLessonsForModule(this.state.courseId, this.state.moduleId)});
+    }
+    deleteLesson(lessonId){
+        this.lessonService
+            .deleteLesson(lessonId)
             .then(() => { this.findAllLessonsForModule(this.state.courseId, this.state.moduleId)});
     }
     setCourseId(courseId) {
@@ -67,6 +73,7 @@ export default class LessonTabs extends Component {
             (lesson) => {
                 return <LessonTabsItem lesson={lesson}
                                        key={lesson.id}
+                                       delete={this.deleteLesson}
                                        create={this.createLesson}/>
         });
         return lessons;
@@ -74,26 +81,25 @@ export default class LessonTabs extends Component {
     render() {
         return(
             <div>
-                <ul className="nav nav-tabs">
+                <ul className="nav nav-tabs nav-justified">
                     {this.renderListOfLessons()}
                     <li>
-                        <div className="row">
-                            <div className="col-6">
-                                <input onChange={this.titleChanged}
-                                       className="form-control"
-                                       id="titleFld"
-                                       placeholder="Lesson Title"/>
-                            </div>
-                            <div className="col-2">
-                                <button className="btn btn-success fa fa-plus"
-                                        onClick={() => {
-                                            this.createLesson(
-                                                this.props.courseId,
-                                                this.props.moduleId
-                                            )
-                                        }}>
-                                </button>
-                            </div>
+                        <div style={{display:'inline-block'}}>
+                            <input onChange={this.titleChanged}
+                                   className="form-control"
+                                   id="titleFld"
+                                   style={{width:'120px'}}
+                                   placeholder="Lesson Title"/>
+                        </div>
+                        <div style={{display:'inline-block'}}>
+                            <button className="btn btn-success fa fa-plus"
+                                    onClick={() => {
+                                        this.createLesson(
+                                            this.props.courseId,
+                                            this.props.moduleId
+                                        )
+                                    }}>
+                            </button>
                         </div>
                     </li>
                 </ul>

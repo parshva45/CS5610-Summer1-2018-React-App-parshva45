@@ -10,7 +10,10 @@ export default class CourseManager
     return (
       <Router>
         <div className="container-fluid">
-          <h1>Course Manager</h1>
+
+          <a style={{textDecoration:'none', color:'black'}} href='/courses'>
+              <h1>Course Manager</h1>
+          </a>
 
           <Route path="/courses"
                  component={CourseList}>

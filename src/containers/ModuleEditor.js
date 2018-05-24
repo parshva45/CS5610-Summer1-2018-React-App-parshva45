@@ -37,7 +37,5 @@ export default class ModuleEditor
     }
 
     render() { return(
-        <ul className="nav nav-tabs">
             <LessonTabs courseId={this.state.courseId} moduleId={this.state.moduleId}/>
-        </ul>
     );}}
