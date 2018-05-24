@@ -21,6 +21,12 @@ export default class LessonService {
             })
     }
 
+    findAllLessons() {
+        return fetch(LESSON_API_URL)
+            .then(function(response){
+                return response.json();
+            });
+
     createLesson(courseId, moduleId, lesson) {
         return fetch(
             COURSE_MODULE_LESSON_API_URL
