@@ -21,10 +21,11 @@ export default class ModuleService {
   }
 
   findAllModules() {
-    return fetch(MODULE_API_URL)
-        .then(function(response){
-            return response.json();
-        });
+      return fetch(MODULE_API_URL)
+          .then(function (response) {
+              return response.json();
+          });
+  }
 
   createModule(courseId, module) {
     return fetch(COURSE_MODULE_API_URL.replace('CID', courseId),

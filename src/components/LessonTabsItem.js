@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import Modal from 'react-responsive-modal';
 
 export default class ModuleListItem
@@ -22,9 +23,11 @@ export default class ModuleListItem
     return (
       <li className="nav-item">
           <div style={{display:'inline-block'}}>
-              <a className="nav-link" href="#">
+              <NavLink to={`/course/${this.props.courseId}/module/${this.props.moduleId}/lesson/${this.props.lesson.id}`}
+                       style={{textDecoration:'none',color:'black', display:'block', padding:'10px'}}
+                       >
                   {this.props.lesson.title}
-              </a>
+              </NavLink>
           </div>
           <div style={{display:'inline-block'}}>
               <button className="btn btn-danger btn-sm fa fa-times"

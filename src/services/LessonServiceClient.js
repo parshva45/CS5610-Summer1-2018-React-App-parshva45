@@ -26,6 +26,7 @@ export default class LessonService {
             .then(function(response){
                 return response.json();
             });
+    }
 
     createLesson(courseId, moduleId, lesson) {
         return fetch(

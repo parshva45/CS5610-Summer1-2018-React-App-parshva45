@@ -70,6 +70,8 @@ export default class LessonTabs extends Component {
         let lessons = this.state.lessons.map(
             (lesson) => {
                 return <LessonTabsItem lesson={lesson}
+                                       courseId={this.state.courseId}
+                                       moduleId={this.state.moduleId}
                                        key={lesson.id}
                                        delete={this.deleteLesson}
                                        create={this.createLesson}/>
@@ -79,7 +81,7 @@ export default class LessonTabs extends Component {
     render() {
         return(
             <div>
-                <ul className="nav nav-tabs nav-justified">
+                <ul className="nav nav-tabs">
                     {this.renderListOfLessons()}
                     <li>
                         <div style={{display:'inline-block'}}>
