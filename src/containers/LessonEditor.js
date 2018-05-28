@@ -1,12 +1,11 @@
 import React from 'react'
 import {Provider} from 'react-redux'
 import {createStore} from 'redux'
-import {widgetReducer} from "../reducers/widgetReducer"
+import {widgetReducer} from "../reducers/WidgetReducer"
 import {WidgetContainer} from '../components/widget'
-import App from '../containers/widgetList'
+import App from './WidgetList'
 
-export default class LessonEditor
-    extends React.Component {
+class LessonEditor extends React.Component {
 
     constructor(props) {
         super(props);
@@ -45,13 +44,14 @@ export default class LessonEditor
     }
 
     render() {
-        let store = createStore(widgetReducer);
         return(
         <Provider store={store}>
-            <App/>
+            <App lessonId={this.state.lessonId}/>
         </Provider>
-        // <h1>{this.state.courseId} {this.state.moduleId} {this.state.lessonId}</h1>
-        // <LessonTabs courseId={this.state.courseId} moduleId={this.state.moduleId}/>
         );
     }
 }
+
+let store = createStore(widgetReducer);
+
+export default LessonEditor;

@@ -1,14 +1,14 @@
 import * as constants from "../constants/index"
 
 export const widgetReducer = (state = {widgets: [], preview: false}, action) => {
-  let newState
+
   switch (action.type) {
 
     case constants.PREVIEW:
       return {
         widgets: state.widgets,
         preview: !state.preview
-      }
+      };
 
     case constants.HEADING_TEXT_CHANGED:
       return {
@@ -18,7 +18,7 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
           }
           return Object.assign({}, widget)
         })
-      }
+      };
 
     case constants.HEADING_SIZE_CHANGED:
       return {
@@ -28,7 +28,7 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
           }
           return Object.assign({}, widget)
         })
-      }
+      };
 
     case constants.SELECT_WIDGET_TYPE:
       console.log(action);
@@ -39,31 +39,31 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
           }
           return true;
         })
-      }
-      return JSON.parse(JSON.stringify(newState))
+      };
+      return JSON.parse(JSON.stringify(newState));
 
     case constants.SAVE:
-
-
       fetch('http://localhost:8080/api/widget/save', {
         method: 'post',
         body: JSON.stringify(state.widgets),
         headers: {
           'content-type': 'application/json'}
-      })
+      });
+      return state;
 
-
-      return state
     case constants.FIND_ALL_WIDGETS:
-      newState = Object.assign({}, state)
-      newState.widgets = action.widgets
-      return newState
+      newState = Object.assign({}, state);
+      newState.widgets = action.widgets;
+      newState.lessonId = action.lessonId;
+      return newState;
+
     case constants.DELETE_WIDGET:
       return {
         widgets: state.widgets.filter(widget => (
           widget.id !== action.id
         ))
-      }
+      };
+
     case constants.ADD_WIDGET:
       return {
         widgets: [
@@ -75,8 +75,8 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
             size: '2'
           }
         ]
-      }
+      };
     default:
       return state
   }
-}
+};

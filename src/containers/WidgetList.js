@@ -5,9 +5,15 @@ import WidgetContainer from '../components/widget'
 
 class WidgetList extends Component {
   constructor(props) {
-    super(props)
-    this.props.findAllWidgets()
+    super(props);
   }
+
+  componentWillReceiveProps(newProps){
+    if(newProps.lessonId !== this.props.lessonId) {
+        this.props.findAllWidgets(newProps.lessonId);
+    }
+  }
+
   render() {
     return(
       <div>
@@ -37,16 +43,16 @@ class WidgetList extends Component {
 const stateToPropertiesMapper = (state) => ({
   widgets: state.widgets,
   previewMode: state.preview
-})
+});
 const dispatcherToPropsMapper
   = dispatch => ({
-  findAllWidgets: () => actions.findAllWidgets(dispatch),
+  findAllWidgets: (lessonId) => actions.findAllWidgets(dispatch, lessonId),
   addWidget: () => actions.addWidget(dispatch),
   save: () => actions.save(dispatch),
   preview: () => actions.preview(dispatch)
-})
+});
 const App = connect(
   stateToPropertiesMapper,
-  dispatcherToPropsMapper)(WidgetList)
+  dispatcherToPropsMapper)(WidgetList);
 
 export default App
