@@ -1,5 +1,9 @@
 import React from 'react'
-// import LessonTabs from './LessonTabs'
+import {Provider} from 'react-redux'
+import {createStore} from 'redux'
+import {widgetReducer} from "../reducers/widgetReducer"
+import {WidgetContainer} from '../components/widget'
+import App from '../containers/widgetList'
 
 export default class LessonEditor
     extends React.Component {
@@ -40,8 +44,13 @@ export default class LessonEditor
         });
     }
 
-    render() { return(
-        <h1>{this.state.courseId} {this.state.moduleId} {this.state.lessonId}</h1>
+    render() {
+        let store = createStore(widgetReducer);
+        return(
+        <Provider store={store}>
+            <App/>
+        </Provider>
+        // <h1>{this.state.courseId} {this.state.moduleId} {this.state.lessonId}</h1>
         // <LessonTabs courseId={this.state.courseId} moduleId={this.state.moduleId}/>
         );
     }
