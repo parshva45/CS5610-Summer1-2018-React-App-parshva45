@@ -30,8 +30,37 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
         })
       };
 
+    case constants.LINK_HREF_CHANGED:
+        return {
+            widgets: state.widgets.map(widget => {
+                if(widget.id === action.id) {
+                    widget.href = action.href
+                }
+                return Object.assign({}, widget)
+            })
+        };
+
+    case constants.LINK_TEXT_CHANGED:
+        return {
+            widgets: state.widgets.map(widget => {
+                if(widget.id === action.id) {
+                    widget.text = action.text
+                }
+                return Object.assign({}, widget)
+            })
+        };
+
+    case constants.PARAGRAPH_TEXT_CHANGED:
+        return {
+            widgets: state.widgets.map(widget => {
+                if(widget.id === action.id) {
+                    widget.text = action.text
+                }
+                return Object.assign({}, widget)
+            })
+        };
+
     case constants.SELECT_WIDGET_TYPE:
-      console.log(action);
       let newState = {
         widgets: state.widgets.filter((widget) => {
           if(widget.id === action.id) {
@@ -69,10 +98,9 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
         widgets: [
           ...state.widgets,
           {
-            id: state.widgets.length + 1,
+            position: state.widgets.length + 1,
             text: 'New Widget',
-            widgetType: 'Paragraph',
-            size: '2'
+            widgetType: 'Paragraph'
           }
         ]
       };

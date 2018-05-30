@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import * as actions from "../actions"
-import WidgetContainer from '../components/widget'
+import WidgetContainer from '../components/Widget'
 
 class WidgetList extends Component {
   constructor(props) {
@@ -9,12 +9,13 @@ class WidgetList extends Component {
   }
 
   componentWillReceiveProps(newProps){
-    if(newProps.lessonId !== this.props.lessonId) {
+    if(this.props.lessonId !== newProps.lessonId) {
         this.props.findAllWidgets(newProps.lessonId);
     }
   }
 
   render() {
+    console.log(JSON.stringify(this.props.widgets[0]));
     return(
       <div>
         <h1>Widget List {this.props.widgets.length}</h1>
@@ -26,15 +27,16 @@ class WidgetList extends Component {
           Preview
         </button>
 
-        <ul>
+        <ul style={{listStyle:'none'}}>
           {this.props.widgets.map(widget => (
             <WidgetContainer widget={widget}
                              preview={this.props.previewMode}
-                             key={widget.id}/>
+                             key={widget.position}/>
           ))}
         </ul>
         <button onClick={this.props.addWidget}>Add widget
         </button>
+        <span style={{paddingBottom:'50px'}}>&nbsp;</span>
       </div>
     )
   }

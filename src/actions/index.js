@@ -13,6 +13,27 @@ export const headingSizeChanged = (dispatch, widgetId, newSize) => (
     size: newSize})
 );
 
+export const paragraphTextChanged = (dispatch, widgetId, newText) => (
+    dispatch({
+        type: constants.PARAGRAPH_TEXT_CHANGED,
+        id: widgetId,
+        text: newText})
+);
+
+export const linkHrefChanged = (dispatch, widgetId, newHref) => (
+    dispatch({
+        type: constants.LINK_HREF_CHANGED,
+        id: widgetId,
+        href: newHref})
+);
+
+export const linkTextChanged = (dispatch, widgetId, newText) => (
+    dispatch({
+        type: constants.LINK_TEXT_CHANGED,
+        id: widgetId,
+        text: newText})
+);
+
 export function findAllWidgets(dispatch, lessonId) {
   fetch('http://localhost:8080/api/lesson/'+lessonId+'/widget')
     .then(response => (response.json()))

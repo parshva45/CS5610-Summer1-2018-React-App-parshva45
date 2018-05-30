@@ -2,7 +2,7 @@ import React from 'react'
 import {Provider} from 'react-redux'
 import {createStore} from 'redux'
 import {widgetReducer} from "../reducers/WidgetReducer"
-import {WidgetContainer} from '../components/widget'
+import {WidgetContainer} from '../components/Widget'
 import App from './WidgetList'
 
 class LessonEditor extends React.Component {
