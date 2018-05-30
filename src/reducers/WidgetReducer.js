@@ -82,7 +82,11 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
 
     case constants.FIND_ALL_WIDGETS:
       newState = Object.assign({}, state);
-      newState.widgets = action.widgets;
+      let foundWidgets = action.widgets
+          .sort(function(a,b){
+              return a.position-b.position
+          });
+      newState.widgets = foundWidgets;
       newState.lessonId = action.lessonId;
       return newState;
 
@@ -90,14 +94,21 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
       // fetch('http://localhost:8080/api/widget/'+action.id, {
       //     method: 'DELETE'
       // });
-      return {
-        widgets: state.widgets.filter(widget => (
-          widget.id !== action.id
-        ))
-      };
+        console.log(JSON.stringify(state.widgets));
+      let newWidgets = state.widgets
+            .filter(widget => (
+                widget.id !== action.id
+            ));
+      newWidgets.map(widget => {
+          if(widget.position > action.position) {
+              widget.position--
+          }
+          Object.assign({}, widget)
+      });
+      console.log(JSON.stringify(newWidgets));
+      return {widgets : newWidgets};
 
     case constants.ADD_WIDGET:
-      console.log(action.lessonId)
       return {
         widgets: [
           ...state.widgets,

@@ -20,18 +20,18 @@ const stateToPropsMapper = state => ({
 });
 
 const Heading = ({widget, preview, headingTextChanged, headingSizeChanged}) => {
-  let selectElem;
-  let inputElem;
+  let headingSelectElem;
+  let headingInputElem;
   return(
     <div>
       <div hidden={preview}>
         <h2> Heading {widget.size}</h2>
-          <input onChange={() => headingTextChanged(widget.id, inputElem.value)}
+          <input onChange={() => headingTextChanged(widget.id, headingInputElem.value)}
                  value={widget.text}
-                 ref={node => inputElem = node}/>
-          <select onChange={() => headingSizeChanged(widget.id, selectElem.value)}
+                 ref={node => headingInputElem = node}/>
+          <select onChange={() => headingSizeChanged(widget.id, headingSelectElem.value)}
                   value={widget.size}
-                  ref={node => selectElem = node}>
+                  ref={node => headingSelectElem = node}>
             <option value="1">Heading 1</option>
             <option value="2">Heading 2</option>
             <option value="3">Heading 3</option>
@@ -48,15 +48,15 @@ const Heading = ({widget, preview, headingTextChanged, headingSizeChanged}) => {
 const HeadingContainer = connect(stateToPropsMapper, dispatchToPropsMapper)(Heading);
 
 const Paragraph = ({widget, preview, paragraphTextChanged}) => {
-    let inputElem;
+    let paragraphInputElem;
     return(
     <div>
         <div hidden={preview}>
             <h2>Paragraph</h2>
             <textarea
-                onChange={() => paragraphTextChanged(widget.id, inputElem.value)}
+                onChange={() => paragraphTextChanged(widget.id, paragraphInputElem.value)}
                 value={widget.text}
-                ref={node => inputElem = node}>
+                ref={node => paragraphInputElem = node}>
             </textarea>
             <h3>Preview</h3>
         </div>
@@ -100,7 +100,7 @@ const Link = ({widget, preview, linkHrefChanged, linkTextChanged}) => {
 const LinkContainer = connect(stateToPropsMapper, dispatchToPropsMapper)(Link);
 
 const Widget = ({widget, preview, dispatch}) => {
-  let selectElement;
+  let widgetSelectElement;
   return(
     <li>
       <div hidden={preview}>
@@ -109,9 +109,9 @@ const Widget = ({widget, preview, dispatch}) => {
               onChange={e => dispatch({
                 type: 'SELECT_WIDGET_TYPE',
                 id: widget.id,
-                widgetType: selectElement.value
+                widgetType: widgetSelectElement.value
               })}
-              ref={node => selectElement = node}>
+              ref={node => widgetSelectElement = node}>
             <option>Heading</option>
             <option>Paragraph</option>
             <option>List</option>
@@ -120,7 +120,7 @@ const Widget = ({widget, preview, dispatch}) => {
           </select>
 
           <button onClick={e => (
-              dispatch({type: DELETE_WIDGET, id: widget.id})
+              dispatch({type: DELETE_WIDGET, id: widget.id, position: widget.position})
           )}>
               Delete
           </button>
