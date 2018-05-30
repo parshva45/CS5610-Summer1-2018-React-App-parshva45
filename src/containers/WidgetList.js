@@ -15,12 +15,11 @@ class WidgetList extends Component {
   }
 
   render() {
-    console.log(JSON.stringify(this.props.widgets[0]));
     return(
       <div>
         <h1>Widget List {this.props.widgets.length}</h1>
 
-        <button hidden={this.props.previewMode} onClick={this.props.save}>
+        <button hidden={this.props.previewMode} onClick={() => this.props.save(this.props.lessonId)}>
           Save
         </button>
         <button onClick={this.props.preview}>
@@ -34,7 +33,8 @@ class WidgetList extends Component {
                              key={widget.position}/>
           ))}
         </ul>
-        <button onClick={this.props.addWidget}>Add widget
+        <button onClick={() => this.props.addWidget(this.props.lessonId)}>
+            Add widget
         </button>
         <span style={{paddingBottom:'50px'}}>&nbsp;</span>
       </div>
@@ -49,8 +49,8 @@ const stateToPropertiesMapper = (state) => ({
 const dispatcherToPropsMapper
   = dispatch => ({
   findAllWidgets: (lessonId) => actions.findAllWidgets(dispatch, lessonId),
-  addWidget: () => actions.addWidget(dispatch),
-  save: () => actions.save(dispatch),
+  addWidget: (lessonId) => actions.addWidget(dispatch, lessonId),
+  save: (lessonId) => actions.save(dispatch, lessonId),
   preview: () => actions.preview(dispatch)
 });
 const App = connect(

@@ -72,7 +72,7 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
       return JSON.parse(JSON.stringify(newState));
 
     case constants.SAVE:
-      fetch('http://localhost:8080/api/widget/save', {
+      fetch('http://localhost:8080/api/lesson/'+action.lessonId+'/widget', {
         method: 'post',
         body: JSON.stringify(state.widgets),
         headers: {
@@ -87,6 +87,9 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
       return newState;
 
     case constants.DELETE_WIDGET:
+      // fetch('http://localhost:8080/api/widget/'+action.id, {
+      //     method: 'DELETE'
+      // });
       return {
         widgets: state.widgets.filter(widget => (
           widget.id !== action.id
@@ -94,13 +97,15 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
       };
 
     case constants.ADD_WIDGET:
+      console.log(action.lessonId)
       return {
         widgets: [
           ...state.widgets,
           {
             position: state.widgets.length + 1,
             text: 'New Widget',
-            widgetType: 'Paragraph'
+            widgetType: 'Paragraph',
+            lessonId: action.lessonId
           }
         ]
       };

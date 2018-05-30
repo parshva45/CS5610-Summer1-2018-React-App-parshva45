@@ -104,15 +104,14 @@ const Widget = ({widget, preview, dispatch}) => {
   return(
     <li>
       <div hidden={preview}>
-          Widget Type : {widget.widgetType}
-          <br/>
+          {widget.id}) Widget Type : {widget.widgetType}
           <select value={widget.widgetType}
-                  onChange={e =>
-              dispatch({
+              onChange={e => dispatch({
                 type: 'SELECT_WIDGET_TYPE',
                 id: widget.id,
                 widgetType: selectElement.value
-              })} ref={node => selectElement = node}>
+              })}
+              ref={node => selectElement = node}>
             <option>Heading</option>
             <option>Paragraph</option>
             <option>List</option>
@@ -121,8 +120,10 @@ const Widget = ({widget, preview, dispatch}) => {
           </select>
 
           <button onClick={e => (
-            dispatch({type: DELETE_WIDGET, id: widget.id})
-          )}>Delete</button>
+              dispatch({type: DELETE_WIDGET, id: widget.id})
+          )}>
+              Delete
+          </button>
           </div>
       <div>
         {widget.widgetType==='Heading' && <HeadingContainer widget={widget}/>}
