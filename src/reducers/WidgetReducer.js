@@ -92,6 +92,36 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
         })
       };
 
+    case constants.IMAGE_SRC_CHANGED:
+      return {
+        widgets: state.widgets.map(widget => {
+          if (widget.position === action.position) {
+            widget.src = action.src
+          }
+          return Object.assign({}, widget)
+        })
+      };
+
+    case constants.IMAGE_HEIGHT_CHANGED:
+      return {
+        widgets: state.widgets.map(widget => {
+          if (widget.position === action.position) {
+            widget.height = action.height
+          }
+          return Object.assign({}, widget)
+        })
+      };
+
+    case constants.IMAGE_WIDTH_CHANGED:
+      return {
+        widgets: state.widgets.map(widget => {
+          if (widget.position === action.position) {
+            widget.width = action.width
+          }
+          return Object.assign({}, widget)
+        })
+      };
+
     case constants.LINK_HREF_CHANGED:
       return {
         widgets: state.widgets.map(widget => {
@@ -132,6 +162,9 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
             } else if (widget.widgetType === "List") {
               widget.listType = "Unordered list";
               widget.listItems = "";
+            } else if (widget.widgetType === "Image") {
+              widget.height = 300;
+              widget.width = 300;
             }
           }
           return true;

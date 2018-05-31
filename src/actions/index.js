@@ -31,6 +31,30 @@ export const listTypeChanged = (dispatch, widgetPos, newType) => (
   })
 );
 
+export const imageSrcChanged = (dispatch, widgetPos, newSrc) => (
+  dispatch({
+    type: constants.IMAGE_SRC_CHANGED,
+    position: widgetPos,
+    src: newSrc
+  })
+);
+
+export const imageHeightChanged = (dispatch, widgetPos, newHeight) => (
+  dispatch({
+    type: constants.IMAGE_HEIGHT_CHANGED,
+    position: widgetPos,
+    height: newHeight
+  })
+);
+
+export const imageWidthChanged = (dispatch, widgetPos, newWidth) => (
+  dispatch({
+    type: constants.IMAGE_WIDTH_CHANGED,
+    position: widgetPos,
+    width: newWidth
+  })
+);
+
 export const paragraphTextChanged = (dispatch, widgetPos, newText) => (
   dispatch({
     type: constants.PARAGRAPH_TEXT_CHANGED,

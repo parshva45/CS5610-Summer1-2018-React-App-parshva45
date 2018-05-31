@@ -18,6 +18,12 @@ const dispatchToPropsMapper = dispatch => ({
     actions.listTextChanged(dispatch, widgetPos, newText),
   listTypeChanged: (widgetPos, newType) =>
     actions.listTypeChanged(dispatch, widgetPos, newType),
+  imageSrcChanged: (widgetPos, newSrc) =>
+    actions.imageSrcChanged(dispatch, widgetPos, newSrc),
+  imageHeightChanged: (widgetPos, newHeight) =>
+    actions.imageHeightChanged(dispatch, widgetPos, newHeight),
+  imageWidthChanged: (widgetPos, newWidth) =>
+    actions.imageWidthChanged(dispatch, widgetPos, newWidth),
 });
 const stateToPropsMapper = state => ({
   preview: state.preview
@@ -103,9 +109,57 @@ const Paragraph = ({widget, preview, paragraphTextChanged}) => {
 };
 const ParagraphContainer = connect(stateToPropsMapper, dispatchToPropsMapper)(Paragraph);
 
-const Image = () => (
-  <h2>Image</h2>
-);
+const Image = ({widget, preview, imageSrcChanged, imageHeightChanged, imageWidthChanged}) => {
+  let imageSrcElem;
+  let imageWidthElem;
+  let imageHeightElem;
+  return (
+    <div className="card-body">
+      <div hidden={preview}>
+        <form>
+          <div className="form-group row">
+            <label className="col-sm-2 col-form-label">
+              Image Source
+            </label>
+            <div className="col-sm-10">
+              <input onChange={() => imageSrcChanged(widget.position, imageSrcElem.value)}
+                     className="form-control"
+                     value={widget.src}
+                     ref={node => imageSrcElem = node}/>
+            </div>
+          </div>
+          <div className="form-group row">
+            <label className="col-sm-2 col-form-label">
+              Image Height
+            </label>
+            <div className="col-sm-10">
+              <input onChange={() => imageHeightChanged(widget.position, imageHeightElem.value)}
+                     className="form-control"
+                     value={widget.height}
+                     ref={node => imageHeightElem = node}/>
+            </div>
+          </div>
+          <div className="form-group row">
+            <label className="col-sm-2 col-form-label">
+              Image Width
+            </label>
+            <div className="col-sm-10">
+              <input onChange={() => imageWidthChanged(widget.position, imageWidthElem.value)}
+                     className="form-control"
+                     value={widget.width}
+                     ref={node => imageWidthElem = node}/>
+            </div>
+          </div>
+        </form>
+        <hr/>
+        <h3>Preview</h3>
+      </div>
+      <img src={widget.src} width={widget.width} height={widget.height}></img>
+    </div>
+  )
+};
+
+const ImageContainer = connect(stateToPropsMapper, dispatchToPropsMapper)(Image);
 
 const List = ({widget, preview, listTextChanged, listTypeChanged}) => {
   let listSelectElem;
@@ -284,7 +338,7 @@ const Widget = ({widget, preview, dispatch}) => {
         {widget.widgetType === 'Heading' && <HeadingContainer widget={widget}/>}
         {widget.widgetType === 'Paragraph' && <ParagraphContainer widget={widget}/>}
         {widget.widgetType === 'List' && <ListContainer widget={widget}/>}
-        {widget.widgetType === 'Image' && <Image/>}
+        {widget.widgetType === 'Image' && <ImageContainer widget={widget}/>}
         {widget.widgetType === 'Link' && <LinkContainer widget={widget}/>}
       </div>
     </div>
