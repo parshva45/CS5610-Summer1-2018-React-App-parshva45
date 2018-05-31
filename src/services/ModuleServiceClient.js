@@ -1,8 +1,8 @@
 
 const COURSE_MODULE_API_URL =
-    'https://webdev-parshva-shah.herokuapp.com/api/course/CID/module';
+    'http://localhost:8080/api/course/CID/module';
 const MODULE_API_URL =
-    'https://webdev-parshva-shah.herokuapp.com/api/module';
+    'http://localhost:8080/api/module';
 
 let _singleton = Symbol();
 export default class ModuleService {
