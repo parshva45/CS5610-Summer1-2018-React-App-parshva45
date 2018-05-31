@@ -24,19 +24,33 @@ const dispatchToPropsMapper = dispatch => ({
     actions.imageHeightChanged(dispatch, widgetPos, newHeight),
   imageWidthChanged: (widgetPos, newWidth) =>
     actions.imageWidthChanged(dispatch, widgetPos, newWidth),
+  widgetNameChanged: (widgetPos, newText) =>
+    actions.widgetNameChanged(dispatch, widgetPos, newText),
 });
 const stateToPropsMapper = state => ({
   preview: state.preview
 });
 
-const Heading = ({widget, preview, headingTextChanged, headingSizeChanged}) => {
+const Heading = ({widget, preview, headingTextChanged, headingSizeChanged, widgetNameChanged}) => {
   let headingSelectElem;
   let headingInputElem;
+  let nameElem;
   return (
     <div className="card-body">
 
       <div hidden={preview}>
         <form>
+          <div className="form-group row">
+            <label className="col-sm-2 col-form-label">
+              Widget Name
+            </label>
+            <div className="col-sm-10">
+              <input onChange={() => widgetNameChanged(widget.position, nameElem.value)}
+                     className="form-control"
+                     value={widget.name}
+                     ref={node => nameElem = node}/>
+            </div>
+          </div>
           <div className="form-group row">
             <label className="col-sm-2 col-form-label">
               Heading Text
@@ -65,7 +79,7 @@ const Heading = ({widget, preview, headingTextChanged, headingSizeChanged}) => {
           </div>
         </form>
         <hr/>
-        <h3>Preview</h3>
+        <h3>Preview of {widget.name}</h3>
       </div>
       <hr/>
       {widget.size == 1 && <h1>{widget.text}</h1>}
@@ -77,12 +91,24 @@ const Heading = ({widget, preview, headingTextChanged, headingSizeChanged}) => {
 
 const HeadingContainer = connect(stateToPropsMapper, dispatchToPropsMapper)(Heading);
 
-const Paragraph = ({widget, preview, paragraphTextChanged}) => {
+const Paragraph = ({widget, preview, paragraphTextChanged, widgetNameChanged}) => {
   let paragraphInputElem;
+  let nameElem;
   return (
     <div className="card-body">
       <div hidden={preview}>
         <form>
+          <div className="form-group row">
+            <label className="col-sm-2 col-form-label">
+              Widget Name
+            </label>
+            <div className="col-sm-10">
+              <input onChange={() => widgetNameChanged(widget.position, nameElem.value)}
+                     className="form-control"
+                     value={widget.name}
+                     ref={node => nameElem = node}/>
+            </div>
+          </div>
           <div className="form-group row">
             <label className="col-sm-2 col-form-label">
               Paragraph Text
@@ -100,7 +126,7 @@ const Paragraph = ({widget, preview, paragraphTextChanged}) => {
         </form>
 
         <hr/>
-        <h3>Preview</h3>
+        <h3>Preview of {widget.name}</h3>
       </div>
       <hr/>
       <pre style={{fontFamily: 'inherit', fontSize: 'inherit'}}>{widget.text}</pre>
@@ -109,14 +135,26 @@ const Paragraph = ({widget, preview, paragraphTextChanged}) => {
 };
 const ParagraphContainer = connect(stateToPropsMapper, dispatchToPropsMapper)(Paragraph);
 
-const Image = ({widget, preview, imageSrcChanged, imageHeightChanged, imageWidthChanged}) => {
+const Image = ({widget, preview, imageSrcChanged, imageHeightChanged, imageWidthChanged, widgetNameChanged}) => {
   let imageSrcElem;
   let imageWidthElem;
   let imageHeightElem;
+  let nameElem;
   return (
     <div className="card-body">
       <div hidden={preview}>
         <form>
+          <div className="form-group row">
+            <label className="col-sm-2 col-form-label">
+              Widget Name
+            </label>
+            <div className="col-sm-10">
+              <input onChange={() => widgetNameChanged(widget.position, nameElem.value)}
+                     className="form-control"
+                     value={widget.name}
+                     ref={node => nameElem = node}/>
+            </div>
+          </div>
           <div className="form-group row">
             <label className="col-sm-2 col-form-label">
               Image Source
@@ -152,7 +190,7 @@ const Image = ({widget, preview, imageSrcChanged, imageHeightChanged, imageWidth
           </div>
         </form>
         <hr/>
-        <h3>Preview</h3>
+        <h3>Preview of {widget.name}</h3>
       </div>
       <img src={widget.src} width={widget.width} height={widget.height}></img>
     </div>
@@ -161,13 +199,25 @@ const Image = ({widget, preview, imageSrcChanged, imageHeightChanged, imageWidth
 
 const ImageContainer = connect(stateToPropsMapper, dispatchToPropsMapper)(Image);
 
-const List = ({widget, preview, listTextChanged, listTypeChanged}) => {
+const List = ({widget, preview, listTextChanged, listTypeChanged, widgetNameChanged}) => {
   let listSelectElem;
   let listInputElem;
+  let nameElem;
   return (
     <div className="card-body">
       <div hidden={preview}>
         <form>
+          <div className="form-group row">
+            <label className="col-sm-2 col-form-label">
+              Widget Name
+            </label>
+            <div className="col-sm-10">
+              <input onChange={() => widgetNameChanged(widget.position, nameElem.value)}
+                     className="form-control"
+                     value={widget.name}
+                     ref={node => nameElem = node}/>
+            </div>
+          </div>
           <div className="form-group row">
             <label className="col-sm-2 col-form-label">
               List Text
@@ -198,7 +248,7 @@ const List = ({widget, preview, listTextChanged, listTypeChanged}) => {
           </div>
         </form>
         <hr/>
-        <h3>Preview</h3>
+        <h3>Preview of {widget.name}</h3>
       </div>
       <hr/>
       {widget.listType === "Unordered list" && <UnorderedList key={widget.position} list={widget.listItems}/>}
@@ -235,9 +285,10 @@ const OrderedList = ({list})=>{
 
 const ListContainer = connect(stateToPropsMapper, dispatchToPropsMapper)(List);
 
-const Link = ({widget, preview, linkHrefChanged, linkTextChanged}) => {
+const Link = ({widget, preview, linkHrefChanged, linkTextChanged, widgetNameChanged}) => {
   let linkHrefElem;
   let linkTextElem;
+  let nameElem;
   if (!widget.href) {
     widget.href = '';
   }
@@ -245,6 +296,17 @@ const Link = ({widget, preview, linkHrefChanged, linkTextChanged}) => {
     <div className="card-body">
       <div hidden={preview}>
         <form>
+          <div className="form-group row">
+            <label className="col-sm-2 col-form-label">
+              Widget Name
+            </label>
+            <div className="col-sm-10">
+              <input onChange={() => widgetNameChanged(widget.position, nameElem.value)}
+                     className="form-control"
+                     value={widget.name}
+                     ref={node => nameElem = node}/>
+            </div>
+          </div>
           <div className="form-group row">
             <label className="col-sm-2 col-form-label">
               Link Text
@@ -269,7 +331,7 @@ const Link = ({widget, preview, linkHrefChanged, linkTextChanged}) => {
           </div>
         </form>
         <hr/>
-        <h3>Preview</h3>
+        <h3>Preview of {widget.name}</h3>
       </div>
       <hr/>
       <a href={widget.href}>{widget.text}</a>

@@ -152,6 +152,16 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
         })
       };
 
+    case constants.WIDGET_NAME_CHANGED:
+      return {
+        widgets: state.widgets.map(widget => {
+          if (widget.position === action.position) {
+            widget.name = action.name
+          }
+          return Object.assign({}, widget)
+        })
+      };
+
     case constants.SELECT_WIDGET_TYPE:
       let newState = {
         widgets: state.widgets.filter((widget) => {

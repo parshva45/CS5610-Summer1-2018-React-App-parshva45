@@ -79,6 +79,14 @@ export const linkTextChanged = (dispatch, widgetPos, newText) => (
   })
 );
 
+export const widgetNameChanged = (dispatch, widgetPos, newText) => (
+  dispatch({
+    type: constants.WIDGET_NAME_CHANGED,
+    position: widgetPos,
+    name: newText
+  })
+);
+
 export function findAllWidgets(dispatch, lessonId) {
   fetch('http://localhost:8080/api/lesson/' + lessonId + '/widget')
     .then(response => (response.json()))
