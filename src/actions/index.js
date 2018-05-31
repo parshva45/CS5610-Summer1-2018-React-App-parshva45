@@ -88,7 +88,7 @@ export const widgetNameChanged = (dispatch, widgetPos, newText) => (
 );
 
 export function findAllWidgets(dispatch, lessonId) {
-  fetch('http://localhost:8080/api/lesson/' + lessonId + '/widget')
+  fetch('https://webdev-parshva-shah.herokuapp.com/api/lesson/' + lessonId + '/widget')
     .then(response => (response.json()))
     .then(widgets => dispatch({
       type: constants.FIND_ALL_WIDGETS,
