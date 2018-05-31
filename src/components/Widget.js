@@ -14,6 +14,10 @@ const dispatchToPropsMapper = dispatch => ({
     actions.linkHrefChanged(dispatch, widgetPos, newHref),
   linkTextChanged: (widgetPos, newText) =>
     actions.linkTextChanged(dispatch, widgetPos, newText),
+  listTextChanged: (widgetPos, newText) =>
+    actions.listTextChanged(dispatch, widgetPos, newText),
+  listTypeChanged: (widgetPos, newType) =>
+    actions.listTypeChanged(dispatch, widgetPos, newType),
 });
 const stateToPropsMapper = state => ({
   preview: state.preview
@@ -103,9 +107,79 @@ const Image = () => (
   <h2>Image</h2>
 );
 
-const List = () => (
-  <h2>List</h2>
-);
+const List = ({widget, preview, listTextChanged, listTypeChanged}) => {
+  let listSelectElem;
+  let listInputElem;
+  return (
+    <div className="card-body">
+      <div hidden={preview}>
+        <form>
+          <div className="form-group row">
+            <label className="col-sm-2 col-form-label">
+              List Text
+            </label>
+            <div className="col-sm-10">
+              <textarea
+                rows="5"
+                onChange={() => listTextChanged(widget.position, listInputElem.value)}
+                className="form-control"
+                value={widget.listItems}
+                ref={node => listInputElem = node}>
+              </textarea>
+            </div>
+          </div>
+          <div className="form-group row">
+            <label className="col-sm-2 col-form-label">
+              List Type
+            </label>
+            <div className="col-sm-10">
+              <select onChange={() => listTypeChanged(widget.position, listSelectElem.value)}
+                      className="form-control"
+                      value={widget.listType}
+                      ref={node => listSelectElem = node}>
+                <option>Unordered list</option>
+                <option>Ordered list</option>
+              </select>
+            </div>
+          </div>
+        </form>
+        <hr/>
+        <h3>Preview</h3>
+      </div>
+      <hr/>
+      {widget.listType === "Unordered list" && <UnorderedList key={widget.position} list={widget.listItems}/>}
+      {widget.listType === "Ordered list" && <OrderedList key={widget.position} list={widget.listItems}/>}
+    </div>
+  )
+};
+
+const UnorderedList = ({list})=>{
+  let i=0;
+  return (
+    <div>
+      <ul>
+        {list.split("\n").map((listItem)=>(
+          <li key={i=i+1}>{listItem}</li>
+        ))}
+      </ul>
+    </div>
+  )
+};
+
+const OrderedList = ({list})=>{
+  let i=0;
+  return (
+    <div>
+      <ol>
+        {list.split("\n").map((listItem)=>(
+          <li key={i=i+1}>{listItem}</li>
+        ))}
+      </ol>
+    </div>
+  )
+};
+
+const ListContainer = connect(stateToPropsMapper, dispatchToPropsMapper)(List);
 
 const Link = ({widget, preview, linkHrefChanged, linkTextChanged}) => {
   let linkHrefElem;
@@ -209,7 +283,7 @@ const Widget = ({widget, preview, dispatch}) => {
       <div>
         {widget.widgetType === 'Heading' && <HeadingContainer widget={widget}/>}
         {widget.widgetType === 'Paragraph' && <ParagraphContainer widget={widget}/>}
-        {widget.widgetType === 'List' && <List/>}
+        {widget.widgetType === 'List' && <ListContainer widget={widget}/>}
         {widget.widgetType === 'Image' && <Image/>}
         {widget.widgetType === 'Link' && <LinkContainer widget={widget}/>}
       </div>

@@ -15,6 +15,22 @@ export const headingSizeChanged = (dispatch, widgetPos, newSize) => (
   })
 );
 
+export const listTextChanged = (dispatch, widgetPos, newText) => (
+  dispatch({
+    type: constants.LIST_TEXT_CHANGED,
+    position: widgetPos,
+    listItems: newText
+  })
+);
+
+export const listTypeChanged = (dispatch, widgetPos, newType) => (
+  dispatch({
+    type: constants.LIST_TYPE_CHANGED,
+    position: widgetPos,
+    listType: newType
+  })
+);
+
 export const paragraphTextChanged = (dispatch, widgetPos, newText) => (
   dispatch({
     type: constants.PARAGRAPH_TEXT_CHANGED,

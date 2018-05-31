@@ -72,6 +72,26 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
         })
       };
 
+    case constants.LIST_TEXT_CHANGED:
+      return {
+        widgets: state.widgets.map(widget => {
+          if (widget.position === action.position) {
+            widget.listItems = action.listItems
+          }
+          return Object.assign({}, widget)
+        })
+      };
+
+    case constants.LIST_TYPE_CHANGED:
+      return {
+        widgets: state.widgets.map(widget => {
+          if (widget.position === action.position) {
+            widget.listType = action.listType
+          }
+          return Object.assign({}, widget)
+        })
+      };
+
     case constants.LINK_HREF_CHANGED:
       return {
         widgets: state.widgets.map(widget => {
@@ -106,9 +126,12 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
       let newState = {
         widgets: state.widgets.filter((widget) => {
           if (widget.position === action.position) {
-            widget.widgetType = action.widgetType
+            widget.widgetType = action.widgetType;
             if (widget.widgetType === "Heading") {
               widget.size = 1
+            } else if (widget.widgetType === "List") {
+              widget.listType = "Unordered list";
+              widget.listItems = "";
             }
           }
           return true;
