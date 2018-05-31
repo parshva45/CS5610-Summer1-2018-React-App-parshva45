@@ -4,6 +4,48 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
 
   switch (action.type) {
 
+    case constants.SHIFT_WIDGET_UP:
+      let newWids = state.widgets;
+      if(action.position > 1){
+        newWids.map(widget => {
+          if (widget.position === action.position - 1) {
+            widget.position = action.position
+          } else if (widget.position === action.position) {
+            widget.position = action.position - 1
+          }
+          return Object.assign({}, widget)
+        })
+      }
+      let sortedWidgets = newWids
+        .sort(function (a, b) {
+          return a.position - b.position
+        });
+
+      return JSON.parse(JSON.stringify({
+        widgets: sortedWidgets
+      }));
+
+    case constants.SHIFT_WIDGET_DOWN:
+      let newWids2 = state.widgets;
+      if(action.position < state.widgets.length){
+        newWids2.map(widget => {
+          if (widget.position === action.position) {
+            widget.position++
+          } else if (widget.position === action.position + 1) {
+            widget.position--
+          }
+          return Object.assign({}, widget)
+        })
+      }
+      let sortedWidgets2 = newWids2
+        .sort(function (a, b) {
+          return a.position - b.position
+        });
+
+      return JSON.parse(JSON.stringify({
+        widgets: sortedWidgets2
+      }));
+
     case constants.PREVIEW:
       return {
         widgets: state.widgets,
@@ -95,7 +137,6 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
       return newState;
 
     case constants.DELETE_WIDGET:
-      console.log(JSON.stringify(state.widgets));
       let newWidgets = state.widgets
         .filter(widget => (
           widget.position !== action.position
@@ -106,7 +147,6 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
         }
         Object.assign({}, widget)
       });
-      console.log(JSON.stringify(newWidgets));
       return {widgets: newWidgets};
 
     case constants.ADD_WIDGET:

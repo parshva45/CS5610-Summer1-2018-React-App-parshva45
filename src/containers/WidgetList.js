@@ -17,23 +17,21 @@ class WidgetList extends Component {
   render() {
     return (
       <div className="container">
-
         <br/>
         <div style={{float: 'right'}}>
-            <span style={{padding: '10px'}}>
-                <button hidden={this.props.previewMode}
-                        className="btn btn-success"
-                        onClick={() => this.props.save(this.props.lessonId)}>
-                    Save
-                </button>
-            </span>
+          <span style={{padding: '10px'}}>
+              <button hidden={this.props.previewMode}
+                      className="btn btn-success"
+                      onClick={() => this.props.save(this.props.lessonId)}>
+                  Save
+              </button>
+          </span>
 
           <button onClick={this.props.preview}
                   className="btn btn-dark">
             Preview
           </button>
         </div>
-
 
         <br/><br/>
 
@@ -45,12 +43,9 @@ class WidgetList extends Component {
           ))}
         </div>
         <div style={{float: 'right'}}>
-
-
           <button className="btn btn-primary btn-lg fa fa-plus"
                   onClick={() => this.props.addWidget(this.props.lessonId)}>
           </button>
-
         </div>
         <span style={{paddingBottom: '50px'}}>&nbsp;</span>
       </div>

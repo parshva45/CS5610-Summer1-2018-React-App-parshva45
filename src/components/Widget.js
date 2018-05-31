@@ -1,19 +1,19 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {DELETE_WIDGET} from "../constants/index"
+import {DELETE_WIDGET, SHIFT_WIDGET_UP, SHIFT_WIDGET_DOWN, SELECT_WIDGET_TYPE} from "../constants/index"
 import * as actions from '../actions'
 
 const dispatchToPropsMapper = dispatch => ({
-  headingTextChanged: (widgetId, newText) =>
-    actions.headingTextChanged(dispatch, widgetId, newText),
-  headingSizeChanged: (widgetId, newSize) =>
-    actions.headingSizeChanged(dispatch, widgetId, newSize),
-  paragraphTextChanged: (widgetId, newText) =>
-    actions.paragraphTextChanged(dispatch, widgetId, newText),
-  linkHrefChanged: (widgetId, newHref) =>
-    actions.linkHrefChanged(dispatch, widgetId, newHref),
-  linkTextChanged: (widgetId, newText) =>
-    actions.linkTextChanged(dispatch, widgetId, newText),
+  headingTextChanged: (widgetPos, newText) =>
+    actions.headingTextChanged(dispatch, widgetPos, newText),
+  headingSizeChanged: (widgetPos, newSize) =>
+    actions.headingSizeChanged(dispatch, widgetPos, newSize),
+  paragraphTextChanged: (widgetPos, newText) =>
+    actions.paragraphTextChanged(dispatch, widgetPos, newText),
+  linkHrefChanged: (widgetPos, newHref) =>
+    actions.linkHrefChanged(dispatch, widgetPos, newHref),
+  linkTextChanged: (widgetPos, newText) =>
+    actions.linkTextChanged(dispatch, widgetPos, newText),
 });
 const stateToPropsMapper = state => ({
   preview: state.preview
@@ -54,12 +54,10 @@ const Heading = ({widget, preview, headingTextChanged, headingSizeChanged}) => {
             </div>
           </div>
         </form>
-
-
         <hr/>
         <h3>Preview</h3>
       </div>
-
+      <hr/>
       {widget.size == 1 && <h1>{widget.text}</h1>}
       {widget.size == 2 && <h2>{widget.text}</h2>}
       {widget.size == 3 && <h3>{widget.text}</h3>}
@@ -81,7 +79,7 @@ const Paragraph = ({widget, preview, paragraphTextChanged}) => {
             </label>
             <div className="col-sm-10">
               <textarea
-                rows="10"
+                rows="5"
                 onChange={() => paragraphTextChanged(widget.position, paragraphInputElem.value)}
                 className="form-control"
                 value={widget.text}
@@ -94,6 +92,7 @@ const Paragraph = ({widget, preview, paragraphTextChanged}) => {
         <hr/>
         <h3>Preview</h3>
       </div>
+      <hr/>
       <pre style={{fontFamily: 'inherit', fontSize: 'inherit'}}>{widget.text}</pre>
     </div>
   )
@@ -144,6 +143,7 @@ const Link = ({widget, preview, linkHrefChanged, linkTextChanged}) => {
         <hr/>
         <h3>Preview</h3>
       </div>
+      <hr/>
       <a href={widget.href}>{widget.text}</a>
     </div>
   )
@@ -159,13 +159,28 @@ const Widget = ({widget, preview, dispatch}) => {
         <div className={"card border-secondary mb-3"}>
           <div className="card-header">
             <h3 style={{display: 'inline'}}>{widget.widgetType} Widget</h3>
-
             <div style={{float: 'right'}}>
               <form className="form-inline">
+                <span>
+                  <button className="btn btn-warning btn-lg fa fa-arrow-up"
+                          type="button"
+                          onClick={e => (
+                            dispatch({type: SHIFT_WIDGET_UP, position: widget.position})
+                          )}>
+                  </button>
+                </span>
+                <span style={{padding: '10px'}}>
+                  <button className="btn btn-warning btn-lg fa fa-arrow-down"
+                          type="button"
+                          onClick={e => (
+                            dispatch({type: SHIFT_WIDGET_DOWN, position: widget.position})
+                          )}>
+                  </button>
+                </span>
                 <select value={widget.widgetType}
                         className="form-control"
                         onChange={e => dispatch({
-                          type: 'SELECT_WIDGET_TYPE',
+                          type: SELECT_WIDGET_TYPE,
                           position: widget.position,
                           widgetType: widgetSelectElement.value
                         })}
@@ -177,16 +192,16 @@ const Widget = ({widget, preview, dispatch}) => {
                   <option>Link</option>
                 </select>
 
-                <span style={{padding: '10px'}}>
+                <span style={{paddingLeft: '10px'}}>
 
-        <button className="btn btn-danger btn-lg fa fa-times"
-                onClick={e => (
-                  dispatch({type: DELETE_WIDGET, position: widget.position})
-                )}>
-        </button>
-          </span>
+                  <button className="btn btn-danger btn-lg fa fa-times"
+                          type="button"
+                          onClick={e => (
+                            dispatch({type: DELETE_WIDGET, position: widget.position})
+                          )}>
+                  </button>
+                </span>
               </form>
-
             </div>
           </div>
         </div>

@@ -1,40 +1,40 @@
 import * as constants from "../constants/index"
 
-export const headingTextChanged = (dispatch, widgetId, newText) => (
+export const headingTextChanged = (dispatch, widgetPos, newText) => (
   dispatch({
     type: constants.HEADING_TEXT_CHANGED,
-    position: widgetId,
+    position: widgetPos,
     text: newText
   })
 );
-export const headingSizeChanged = (dispatch, widgetId, newSize) => (
+export const headingSizeChanged = (dispatch, widgetPos, newSize) => (
   dispatch({
     type: constants.HEADING_SIZE_CHANGED,
-    position: widgetId,
+    position: widgetPos,
     size: newSize
   })
 );
 
-export const paragraphTextChanged = (dispatch, widgetId, newText) => (
+export const paragraphTextChanged = (dispatch, widgetPos, newText) => (
   dispatch({
     type: constants.PARAGRAPH_TEXT_CHANGED,
-    position: widgetId,
+    position: widgetPos,
     text: newText
   })
 );
 
-export const linkHrefChanged = (dispatch, widgetId, newHref) => (
+export const linkHrefChanged = (dispatch, widgetPos, newHref) => (
   dispatch({
     type: constants.LINK_HREF_CHANGED,
-    position: widgetId,
+    position: widgetPos,
     href: newHref
   })
 );
 
-export const linkTextChanged = (dispatch, widgetId, newText) => (
+export const linkTextChanged = (dispatch, widgetPos, newText) => (
   dispatch({
     type: constants.LINK_TEXT_CHANGED,
-    position: widgetId,
+    position: widgetPos,
     text: newText
   })
 );
