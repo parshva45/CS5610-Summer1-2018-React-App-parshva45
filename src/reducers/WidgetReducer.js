@@ -13,7 +13,7 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
     case constants.HEADING_TEXT_CHANGED:
       return {
         widgets: state.widgets.map(widget => {
-          if(widget.id === action.id) {
+          if (widget.position === action.position) {
             widget.text = action.text
           }
           return Object.assign({}, widget)
@@ -23,7 +23,7 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
     case constants.HEADING_SIZE_CHANGED:
       return {
         widgets: state.widgets.map(widget => {
-          if(widget.id === action.id) {
+          if (widget.position === action.position) {
             widget.size = action.size
           }
           return Object.assign({}, widget)
@@ -31,40 +31,43 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
       };
 
     case constants.LINK_HREF_CHANGED:
-        return {
-            widgets: state.widgets.map(widget => {
-                if(widget.id === action.id) {
-                    widget.href = action.href
-                }
-                return Object.assign({}, widget)
-            })
-        };
+      return {
+        widgets: state.widgets.map(widget => {
+          if (widget.position === action.position) {
+            widget.href = action.href
+          }
+          return Object.assign({}, widget)
+        })
+      };
 
     case constants.LINK_TEXT_CHANGED:
-        return {
-            widgets: state.widgets.map(widget => {
-                if(widget.id === action.id) {
-                    widget.text = action.text
-                }
-                return Object.assign({}, widget)
-            })
-        };
+      return {
+        widgets: state.widgets.map(widget => {
+          if (widget.position === action.position) {
+            widget.text = action.text
+          }
+          return Object.assign({}, widget)
+        })
+      };
 
     case constants.PARAGRAPH_TEXT_CHANGED:
-        return {
-            widgets: state.widgets.map(widget => {
-                if(widget.id === action.id) {
-                    widget.text = action.text
-                }
-                return Object.assign({}, widget)
-            })
-        };
+      return {
+        widgets: state.widgets.map(widget => {
+          if (widget.position === action.position) {
+            widget.text = action.text
+          }
+          return Object.assign({}, widget)
+        })
+      };
 
     case constants.SELECT_WIDGET_TYPE:
       let newState = {
         widgets: state.widgets.filter((widget) => {
-          if(widget.id === action.id) {
+          if (widget.position === action.position) {
             widget.widgetType = action.widgetType
+            if (widget.widgetType === "Heading") {
+              widget.size = 1
+            }
           }
           return true;
         })
@@ -72,41 +75,39 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
       return JSON.parse(JSON.stringify(newState));
 
     case constants.SAVE:
-      fetch('http://localhost:8080/api/lesson/'+action.lessonId+'/widget', {
+      fetch('http://localhost:8080/api/lesson/' + action.lessonId + '/widget', {
         method: 'post',
         body: JSON.stringify(state.widgets),
         headers: {
-          'content-type': 'application/json'}
+          'content-type': 'application/json'
+        }
       });
       return state;
 
     case constants.FIND_ALL_WIDGETS:
       newState = Object.assign({}, state);
       let foundWidgets = action.widgets
-          .sort(function(a,b){
-              return a.position-b.position
-          });
+        .sort(function (a, b) {
+          return a.position - b.position
+        });
       newState.widgets = foundWidgets;
       newState.lessonId = action.lessonId;
       return newState;
 
     case constants.DELETE_WIDGET:
-      // fetch('http://localhost:8080/api/widget/'+action.id, {
-      //     method: 'DELETE'
-      // });
-        console.log(JSON.stringify(state.widgets));
+      console.log(JSON.stringify(state.widgets));
       let newWidgets = state.widgets
-            .filter(widget => (
-                widget.id !== action.id
-            ));
+        .filter(widget => (
+          widget.position !== action.position
+        ));
       newWidgets.map(widget => {
-          if(widget.position > action.position) {
-              widget.position--
-          }
-          Object.assign({}, widget)
+        if (widget.position > action.position) {
+          widget.position--
+        }
+        Object.assign({}, widget)
       });
       console.log(JSON.stringify(newWidgets));
-      return {widgets : newWidgets};
+      return {widgets: newWidgets};
 
     case constants.ADD_WIDGET:
       return {

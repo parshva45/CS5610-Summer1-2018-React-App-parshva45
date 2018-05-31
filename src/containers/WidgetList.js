@@ -8,35 +8,51 @@ class WidgetList extends Component {
     super(props);
   }
 
-  componentWillReceiveProps(newProps){
-    if(this.props.lessonId !== newProps.lessonId) {
-        this.props.findAllWidgets(newProps.lessonId);
+  componentWillReceiveProps(newProps) {
+    if (this.props.lessonId !== newProps.lessonId) {
+      this.props.findAllWidgets(newProps.lessonId);
     }
   }
 
   render() {
-    return(
-      <div>
-        <h1>Widget List {this.props.widgets.length}</h1>
+    return (
+      <div className="container">
 
-        <button hidden={this.props.previewMode} onClick={() => this.props.save(this.props.lessonId)}>
-          Save
-        </button>
-        <button onClick={this.props.preview}>
-          Preview
-        </button>
+        <br/>
+        <div style={{float: 'right'}}>
+            <span style={{padding: '10px'}}>
+                <button hidden={this.props.previewMode}
+                        className="btn btn-success"
+                        onClick={() => this.props.save(this.props.lessonId)}>
+                    Save
+                </button>
+            </span>
 
-        <ul style={{listStyle:'none'}}>
+          <button onClick={this.props.preview}
+                  className="btn btn-dark">
+            Preview
+          </button>
+        </div>
+
+
+        <br/><br/>
+
+        <div className={"card border-secondary mb-3"}>
           {this.props.widgets.map(widget => (
             <WidgetContainer widget={widget}
                              preview={this.props.previewMode}
                              key={widget.position}/>
           ))}
-        </ul>
-        <button onClick={() => this.props.addWidget(this.props.lessonId)}>
-            Add widget
-        </button>
-        <span style={{paddingBottom:'50px'}}>&nbsp;</span>
+        </div>
+        <div style={{float: 'right'}}>
+
+
+          <button className="btn btn-primary btn-lg fa fa-plus"
+                  onClick={() => this.props.addWidget(this.props.lessonId)}>
+          </button>
+
+        </div>
+        <span style={{paddingBottom: '50px'}}>&nbsp;</span>
       </div>
     )
   }
